@@ -1,5 +1,7 @@
 package u04lab.code
 
+import u04lab.code.Streams.Stream
+
 import scala.annotation.tailrec
 
 object Lists extends App {
@@ -79,6 +81,11 @@ object Lists extends App {
 
     def isEmpty(l:List[_]): Boolean =
       length(l) == 0
+
+    def toStream[A](list: List[A]): Stream[A] = list match {
+      case Cons(h,t) => Stream.Cons(() => h, () => toStream(t))
+      case _ => Stream.empty
+    }
   }
 
   // Note "List." qualification
