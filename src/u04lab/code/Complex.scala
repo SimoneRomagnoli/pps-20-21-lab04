@@ -1,5 +1,7 @@
 package u04lab.code
 
+import homework.ComplexImpl
+
 trait Complex {
   def re: Double
   def im: Double
@@ -8,15 +10,17 @@ trait Complex {
 }
 
 object Complex {
-  def apply(re:Double, im:Double):Complex = ??? // Fill here
+  def apply(re:Double, im:Double):Complex = ComplexImpl(re, im) // Fill here
 }
 
 object TryComplex extends App {
   val a = Array(Complex(10,20), Complex(1,1), Complex(7,0))
   val c = a(0) + a(1) + a(2)
   println(c, c.re, c.im) // (ComplexImpl(18.0,21.0),18.0,21.0)
+  println(c.toString)
   val c2 = a(0) * a(1)
   println(c2, c2.re, c2.im) // (ComplexImpl(-10.0,30.0),-10.0,30.0)
+  println(c2.toString)
 }
 
 /** Hints:
