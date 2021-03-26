@@ -12,13 +12,15 @@ case class PowerIteratorImpl[A](var stream: Stream[A] = Empty()) extends PowerIt
 
   override def next(): Optionals.Option[A] = stream match {
     case Stream.Cons(h, t) =>
-      pastList = append(pastList, List.Cons(h, Nil()))
+      pastList = append(pastList, List.Cons(h(), Nil()))
       stream = t()
       Option.Some(h())
     case _ => Option.empty
   }
 
-  override def allSoFar(): Lists.List[A] = pastList
+  override def allSoFar(): Lists.List[A] =
+    pastList
 
-  override def reversed(): PowerIterator[A] = PowerIteratorImpl(toStream(reverse(pastList)))
+  override def reversed(): PowerIterator[A] =
+    PowerIteratorImpl(toStream(reverse(pastList)))
 }

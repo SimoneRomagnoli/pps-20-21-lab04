@@ -3,12 +3,40 @@ package u04lab.code
 import Optionals._
 import Lists._
 import Lists.List._
+import Streams._
+import Streams.Stream._
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions._
+import homework.PowerIteratorImpl
 
 class PowerIteratorsTest {
 
   val factory = new PowerIteratorsFactoryImpl()
+  val list:List[Int] = List.Cons(1, List.Cons(2, List.Cons(3, Nil())))
+  val stream:Stream[Int] = take(iterate(1)(_+1))(3)
+
+  @Test
+  def testPowerIteratorMethods(): Unit = {
+    val pi = PowerIteratorImpl(stream)
+    assertEquals(Option.of(1), pi.next())
+    assertEquals(List.Cons(1, Nil()), pi.allSoFar())
+    assertEquals(Option.of(2), pi.next())
+    assertEquals(List.Cons(1, List.Cons(2, Nil())), pi.allSoFar())
+    assertEquals(Option.of(3), pi.next())
+    assertEquals(List.Cons(1, List.Cons(2, List.Cons(3, Nil()))), pi.allSoFar())
+    assertEquals(Option.empty, pi.next())
+    assertEquals(List.Cons(1, List.Cons(2, List.Cons(3, Nil()))), pi.allSoFar())
+
+    val pir = pi.reversed()
+    assertEquals(Option.of(3), pir.next())
+    assertEquals(List.Cons(3, Nil()), pir.allSoFar())
+    assertEquals(Option.of(2), pir.next())
+    assertEquals(List.Cons(3, List.Cons(2, Nil())), pir.allSoFar())
+    assertEquals(Option.of(1), pir.next())
+    assertEquals(List.Cons(3, List.Cons(2, List.Cons(1, Nil()))), pir.allSoFar())
+    assertEquals(Option.empty, pir.next())
+    assertEquals(List.Cons(3, List.Cons(2, List.Cons(1, Nil()))), pir.allSoFar())
+  }
 
   @Test
   def testIncremental() {
@@ -23,4 +51,16 @@ class PowerIteratorsTest {
     }
     assertEquals(Option.of(33), pi.next()); // sono arrivato a 33
   }
+
+  @Test
+  def testFromList(): Unit = {
+    println(factory.fromList(list))
+    println(PowerIteratorImpl(stream))
+  }
+
+  @Test
+  def testRandomBooleans(): Unit = {
+    print(factory.randomBooleans(5))
+  }
+
 }

@@ -1,6 +1,7 @@
 package u04lab.code
 
 import u04lab.code.Streams.Stream
+import u04lab.code.Streams.Stream.cons
 
 import scala.annotation.tailrec
 
@@ -83,8 +84,8 @@ object Lists extends App {
       length(l) == 0
 
     def toStream[A](list: List[A]): Stream[A] = list match {
-      case Cons(h,t) => Stream.Cons(() => h, () => toStream(t))
-      case _ => Stream.empty
+      case List.Cons(h,t) => cons(h, toStream(t))
+      case List.Nil() => Stream.empty()
     }
   }
 
